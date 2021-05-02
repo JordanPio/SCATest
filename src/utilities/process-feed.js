@@ -13,26 +13,31 @@ async function getFeedInJson(podcastURL) {
 function displayFeedInAuFormat(feed, order) {
   if (!feed || Object.keys(feed).length === 0) return {};
 
-  if (order === "asc") {
-    feed.items.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
-  } else {
-    feed.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+  try {
+    if (order === "asc") {
+      feed.items.sort((a, b) => new Date(a.pubDate) - new Date(b.pubDate));
+    } else {
+      feed.items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+    }
+
+    const last10EpisodesSorted = feed.items.slice(0, 10);
+
+    const episodesArrInAuFormat = last10EpisodesSorted.map((epi) => {
+      publishedDate = convertISODateToAEST(epi.pubDate);
+      return { title: epi.title, audioUrl: epi.enclosure.url, publishedDate };
+    });
+
+    let feedObjRefactored = {
+      title: feed.title,
+      description: feed.description,
+      episodes: episodesArrInAuFormat,
+    };
+
+    return feedObjRefactored;
+  } catch (error) {
+    console.error("Error:", error.message);
+    return {};
   }
-
-  const last10EpisodesSorted = feed.items.slice(0, 10);
-
-  const episodesArrInAuFormat = last10EpisodesSorted.map((epi) => {
-    publishedDate = convertISODateToAEST(epi.pubDate);
-    return { title: epi.title, audioUrl: epi.enclosure.url, publishedDate };
-  });
-
-  let feedObjRefactored = {
-    title: feed.title,
-    description: feed.description,
-    episodes: episodesArrInAuFormat,
-  };
-
-  return feedObjRefactored;
 }
 
 module.exports = { getFeedInJson, displayFeedInAuFormat };
