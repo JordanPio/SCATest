@@ -1,3 +1,4 @@
+const e = require('express')
 const express = require('express')
 const app = express()
 const port = 3000
@@ -15,6 +16,14 @@ app.get('/', async (req, res) => {
   const FormatedFeedObject = await remodelFeedObj(feed)
   res.send(FormatedFeedObject)
 
+})
+
+app.get('/sort', async (req, res) => {
+  // res.send('Hello World!')
+  const order = req.query.order
+  const feed = await getFeedInJson(podcastURL)
+  const FormatedFeedObject = await remodelFeedObj(feed, order)
+  res.send(FormatedFeedObject)
 
 })
 
@@ -42,22 +51,31 @@ async function getFeedInJson(podcastURL) {
 
 
 // remodel feedObj and formatDate to AEST
-function remodelFeedObj(feed) {
+function remodelFeedObj(feed, order) {
   // const feed = await getFeedInJson(podcastURL)
 
-  const episodesArr = feed.items.map(epi => {
+if (!feed || Object.keys(feed).length === 0) return {}
+
+if (order==="asc") {
+  feed.items.sort((a,b) => new Date(a.pubDate) - new Date(b.pubDate))
+} else {
+  feed.items.sort((a,b) => new Date(b.pubDate) - new Date(a.pubDate))
+}
+
+const last10Episodes = feed.items.slice(0, 10)
+
+  const episodesArr = last10Episodes.map(epi => {
     publishedDate = convertISODateToAEST(epi.pubDate)
     return {title: epi.title, audioUrl: epi.enclosure.url, publishedDate}
   })
 
-  const last10Episodes = episodesArr.slice(0, 10)
 
-  let newFeedObj = {title: feed.title , description: feed.description , episodes: last10Episodes}
+  let newFeedObj = {title: feed.title , description: feed.description , episodes: episodesArr}
 
+  console.log(newFeedObj)
   return newFeedObj
 
   // console.log(Object.keys(feed))
-  // console.log(newFeedObj)
 }
 
 // remodelFeedObj()
