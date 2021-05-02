@@ -15,7 +15,7 @@ This challenge should take no longer than a coupe of hours to complete & is here
 - Write functional and good quality code
 - Push the results to some remote source control (like Git)
 
-Please commit early and often, so that we can see how problems are solved. 
+Please commit early and often, so that we can see how problems are solved.
 
 ## Challenge
 
@@ -26,7 +26,7 @@ This is a challenge to code an API that returns the `Houston, We have a Podcast`
 1. Read up on what RSS feeds if you are not familiar with the technology .
 2. Go to the NASA's `Houston, We have a Podcast` RSS feed page located at `https://www.nasa.gov/rss/dyn/Houston-We-Have-a-Podcast.rss`.
 3. Use node or a third party library to retrieve the RSS feed in XML and convert it into a JSON object
-5. With the JSON object build an API using Express with the requirements detailed in the next section.
+4. With the JSON object build an API using Express with the requirements detailed in the next section.
 
 ## Requirements
 
@@ -36,7 +36,7 @@ This is a challenge to code an API that returns the `Houston, We have a Podcast`
     title: "Houston We Have a Podcast"
     description: "description of podcast"
     episodes: [
-     {  
+     {
         title: "title of episode",
         audioUrl: "http://www.nasa.gov/sites/default/files/atoms/audio/ep191_the_crew-2_astronauts.mp3"
         publishedDate: "13/03/2021, 2:30:00 am AEST"
@@ -44,13 +44,15 @@ This is a challenge to code an API that returns the `Houston, We have a Podcast`
      // 9 more episodes
     ]
   }
-   ```
+  ```
+
 ## Bonus Round!
+
 This is not an essential requirement but is a nice to have:
 
 - Create another endpoint `/sort`. This endpoint accepts a query parameter called `order`. The order can either be `asc` for ascending or `dsc` for descending.
   This endpoint should return the same payload as the root route, but the 10 episodes return are sorted by their published date according to the `order` query.
-  So if the order query is `dsc`  the latest 10 episodes are returned and if the order query is `asc` then the first 10 episodes are returned.
+  So if the order query is `dsc` the latest 10 episodes are returned and if the order query is `asc` then the first 10 episodes are returned.
 
 ## Getting Started
 
@@ -64,6 +66,7 @@ To get started with this application:
 ```
 
 ## How we are going to test your API
+
 - We start your API locally by running the following:
 
 ```js
