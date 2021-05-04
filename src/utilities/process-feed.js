@@ -2,9 +2,9 @@ const Parser = require("rss-parser");
 const parser = new Parser();
 const { convertISODateToAEST } = require("./format-iso-date-to-AEST");
 
-async function getFeedInJson(podcastURL) {
+function getFeedInJson(podcastURL) {
   try {
-    return await parser.parseURL(podcastURL);
+    return parser.parseURL(podcastURL);
   } catch (error) {
     console.error("Error:", error.message);
     return {};
@@ -78,5 +78,6 @@ there was undeclared variables - it wasnt causing error but it could had been av
 immutability - do not mute feed object straight - I was reodering it straight
 missed using const instead of let in one of the objects
 Create additional unit testing
+uncessary use async in one of the functions
 
 */
